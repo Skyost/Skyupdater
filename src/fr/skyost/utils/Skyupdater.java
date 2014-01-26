@@ -41,7 +41,6 @@ public class Skyupdater {
 	
 	private String apiKey;
 	private URL url;
-	private final Properties config = new Properties();
 	private File skyupdaterFolder;
 	private File updateFolder;
 	private Result result = Result.SUCCESS;
@@ -49,7 +48,7 @@ public class Skyupdater {
 	private String response;
 	private Thread updaterThread;
 	
-	private static final String SKYUPDATER_VERSION = "0.3.1";
+	private static final String SKYUPDATER_VERSION = "0.3.2";
 	
 	public enum Result {
 		
@@ -145,15 +144,16 @@ public class Skyupdater {
 			skyupdaterFolder.mkdir();
 		}
 		final File propertiesFile = new File(skyupdaterFolder, "skyupdater.properties");
+		final Properties config = new Properties();
 		if(propertiesFile.exists()) {
 			config.load(new FileInputStream(propertiesFile));
 			apiKey = config.getProperty("api-key", "NONE");
 			if(apiKey.equalsIgnoreCase("NONE") || apiKey.length() == 0) {
 				apiKey = null;
 			}
-			if(!config.getProperty("enable", "true").equalsIgnoreCase("true")) {
+			isEnabled = Boolean.valueOf(config.getProperty("enable", "true"));
+			if(!isEnabled) {
 				result = Result.DISABLED;
-				isEnabled = false;
 				if(announce) {
 					logger.log(Level.INFO, "[Skyupdater] Skyupdater is disabled.");
 				}
@@ -272,7 +272,7 @@ public class Skyupdater {
 				return false;
 			}
 			final long size = connection.getContentLengthLong();
-			final long koSize = Math.round(size / 1000);
+			final long koSize = size / 1000;
 			long lastPercent = 0;
 			long percent = 0;
 			float totalDataRead = 0;
