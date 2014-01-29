@@ -48,7 +48,7 @@ public class Skyupdater {
 	private String response;
 	private Thread updaterThread;
 	
-	private static final String SKYUPDATER_VERSION = "0.3.2";
+	private static final String SKYUPDATER_VERSION = "0.3.3";
 	
 	public enum Result {
 		
@@ -298,7 +298,7 @@ public class Skyupdater {
 			return true;
 		}
 		catch(Exception ex) {
-			logger.log(Level.SEVERE, "Exception '" + ex.getLocalizedMessage() + "' occured when downloading update. Please check your network connection.");
+			logger.log(Level.SEVERE, "Exception '" + ex + "' occured when downloading update. Please check your network connection.");
 			result = Result.ERROR;
 		}
 		return false;
@@ -422,7 +422,7 @@ public class Skyupdater {
 					}
 				}
 				catch(Exception ex) {
-					logger.log(Level.SEVERE, "Exception '" + ex.getLocalizedMessage() + "'. Please check your network connection.");
+					logger.log(Level.SEVERE, "Exception '" + ex + "'. Please check your network connection.");
 					result = Result.ERROR;
 				}
 			}
