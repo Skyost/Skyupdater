@@ -21,6 +21,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import com.google.common.base.Joiner;
+
 /**
  * A simple auto-updater.
  * <br>Please follow this link to read more about checking for updates in your plugin : http://url.skyost.eu/3.
@@ -48,7 +50,7 @@ public class Skyupdater {
 	private String response;
 	private Thread updaterThread;
 	
-	private static final String SKYUPDATER_VERSION = "0.3.4";
+	private static final String SKYUPDATER_VERSION = "0.3.5";
 	
 	public enum Result {
 		
@@ -417,7 +419,7 @@ public class Skyupdater {
 						}
 					}
 					else {
-						logger.log(Level.SEVERE, "[Skyupdater] The ID '" + id + "' was not found (or no files found for this project) ! Maybe the author of '" + plugin.getName() + "' has misconfigured his plugin ?");
+						logger.log(Level.SEVERE, "[Skyupdater] The ID '" + id + "' was not found (or no files found for this project) ! Maybe the author(s) (" + Joiner.on(", ").join(plugin.getDescription().getAuthors()) + ") of '" + plugin.getName() + "' has misconfigured his plugin ?");
 						result = Result.ERROR;
 					}
 				}
